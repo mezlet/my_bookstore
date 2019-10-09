@@ -9,10 +9,6 @@ import {
   validationErrorResponse,
   comparePassword,
   generateToken,
-  generateVerificationLink,
-  verifyToken,
-  generateResetLink,
-  hashPassword
 } from '../utils/helpers';
 
 const { Users } = db;
@@ -43,7 +39,7 @@ class UsersController {
             ...body,
             hash: body.password
           });
-          const token = generateToken({ id:body.id, username: body.username });
+          const token = generateToken({ id:user.id, username: user.username });
           user.token = token;
           delete user.hash;
           return successResponse(res, {success:true,  user: user }, 201);

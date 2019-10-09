@@ -18,10 +18,12 @@ export const postSchema = Joi.object().keys({
   title: Joi.string()
     .min(3)
     .max(20)
+    .regex(/^[a-zA-Z]$/)
     .required(),
   author: Joi.string()
     .min(3)
     .max(20)
+    .regex(/^[a-zA-Z]$/)
     .required(),
   genre: Joi.string()
     .min(3)

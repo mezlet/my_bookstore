@@ -26,7 +26,7 @@ export default class UsersMiddleware {
     try {
       const decoded = await verifyToken(token, process.env.SECRET);
       const data = await Users.findOne({
-        where: { username: decoded.username }
+        where: { id: decoded.id }
       });
       if (!data) {
         return errorResponse(res, 'User does not exist', 404);

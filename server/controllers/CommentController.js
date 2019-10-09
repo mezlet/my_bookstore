@@ -48,7 +48,7 @@ class CommentsController {
     try {
       const { id } = req.params;
 
-      return client.get("comment", async (error, result) => {
+      return client.get("`comment${id}`", async (error, result) => {
         if (result) {
           return successResponse(res, { data: result }, 200);
         }
@@ -56,6 +56,7 @@ class CommentsController {
         if (!comments) {
           return res.json("comment not found");
         }
+        client.set(`comment${id}`, JSON.stringify({ comments }));
         return successResponse(res, {success:true, data: comments }, 200);
       });
     } catch (error) {

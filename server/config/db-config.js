@@ -1,9 +1,7 @@
-const env = require('./env-config');
-
+import env from './env-config'
 const { DATABASE_URL } = env;
 
-
-module.exports = {
+const db  = {
   development: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
@@ -24,3 +22,5 @@ module.exports = {
     logging: false
   }
 };
+
+export default db;

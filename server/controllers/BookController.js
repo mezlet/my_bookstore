@@ -79,7 +79,7 @@ class BooksController {
           return model
             .editBook(Books, req.body, id)
             .then(response => {
-              client.set("book", JSON.stringify({ response }));
+              client.set(`book${id}`, JSON.stringify({ response }));
               return successResponse(res, {success: true, data: response}, 200);
             })
             .catch(error => {
@@ -110,7 +110,7 @@ class BooksController {
         if (book) {
           return successResponse(
             res,
-            { source: "cache", data: JSON.parse(book) },
+            {success:true, source: "cache", data: JSON.parse(book) },
             200
           );
         }
@@ -147,8 +147,8 @@ class BooksController {
           }
           const deleted = await book.destroy();
           if(deleted){
-              await client.delete('book');
-              return successResponse(res, {success:false, message:'Delete was successful'}, 200)
+              await client.del('book');
+              return successResponse(res, {success:true, message:'Delete was successful'}, 200)
           }
           return errorResponse(res, {success:false,message: 'Could not delete post'});
       }catch(error){

@@ -46,5 +46,5 @@ services:
       timeout: 10s
       retries: 5
   redis:
-    image: redis:latest
+    image: redis:5.0-alpine
     container_name: redis_cache

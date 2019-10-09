@@ -10,7 +10,7 @@ import routes from './routes/index';
 const app = express();
 
 app.use(cors());
-// app.use(logger('dev'));
+app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -25,7 +25,7 @@ app.use(
 
 routes(app);
 app.listen(env.PORT, () => {
-  console.log(`Listening on port ${env.PORT}`);
+  logger(`Listening on port ${env.PORT}`);
 });
 
 export default app;
