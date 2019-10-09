@@ -1,0 +1,50 @@
+version: '2.1'
+volumes:
+  database_data:
+    external: true
+  redis_data:
+    external: true
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - database
+      - redis
+    volumes:
+      - /usr/app/node_modules
+      - .:/usr/app/
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://gnwfdwwo:D87o95IHOzY1zJMaDGGPGsGiVg6kOO-O@database/gnwfdwwo
+      REDIS_URL: redis://redis_cache
+    command: >
+        ash -c "npm run migrate && npm run start:dev"
+    depends_on:
+      database:
+        condition: service_healthy
+  database:
+    image: postgres:9.6-alpine
+    expose:
+      - '5432'
+    ports:
+      - '5432:5432'
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: gnwfdwwo
+      POSTGRES_PASSWORD: D87o95IHOzY1zJMaDGGPGsGiVg6kOO-O
+      POSTGRES_DB: gnwfdwwo
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U gnwfdwwo']
+      interval: 5s
+      timeout: 10s
+      retries: 5
+  redis:
+    image: redis:latest
+    container_name: redis_cache
